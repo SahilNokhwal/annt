@@ -1,0 +1,24 @@
+Performance tuning evaluation of different deep learning models for Image classification using Pytorch.
+Datasets :Cifar10,Cifar100
+Models:EfficientNet-BO,Resnet50,Pretrained VIT (Hugging face)
+Metrics evaluated :Accuracy,F1
+Loss function:Cross entropy
+Performance tuning techniques leveraged:Automatic Precision Scaling,Pin memory,Gradient accumulation
+
+Scores for Cifar10 with performance tuning applied:
+EfficientNet-BO,Accuracy-96%,F1-96% ,Exec. time- 1hour, before it was 1.8 hours
+VIT,Accuracy-97%,F1-97%, Exec. time- 2 hours , before it was 4.2 hours
+Resnet50,Accuracy-92%,F1-92% ,Exec. time -46 min, before it was 86min
+
+Scores for Cifar100:
+EfficientNet-BO,Train accuracy-81%,Test accuracy-90% ,Exec. time-1.1hours, before it was 1.7 hours.
+Restnet50-Accuracy-75.2%,F1-75.2% ,Exec. time-18min, before it was 85 min.
+VIT,Accuracy-84%,Exec. time -2.5 hrs,before it was 6.2 hours
+
+For the above,when train and test accuracy resulted the same for the models they are just mentioned as 'Accuracy' otherwise mentioned the difference.
+
+
+Performance tuning techniques applied:
+Gradient accumulation is used to increase the batch size that helps in reducing the training execution time.
+Automatic precision scaling using Autocast and grad scaler is leveraged to reduce the load on memory and increase the training speed by automaticalling changing the computations from fp32 to fp16 when not required.
+Pin_memory in data loader is set to true to reduce the load on memory .
