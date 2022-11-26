@@ -24,5 +24,5 @@ Automatic precision scaling using Autocast and grad scaler is leveraged to reduc
 Pin_memory in data loader is set to true to reduce the load on memory .
 
 
-NOTE:For without performance tuning of the VIT code run for both the datasets,comment the trainer arguments for gradient accumulation and fp16 parameter to get the execution time statistics.
-Currently in the VIT folder, the execution time for both the datasets screenshots are attached for the reference.
+NOTE:For without performance tuning of the VIT code run for both the datasets,the trainer arguments for gradient accumulation and fp16 parameter are to be commented to get the execution time statistics for the default batch size of 70.
+The execution time of the model run screenshots are uploaded for the same in VIT folder.
