@@ -22,3 +22,7 @@ Performance tuning techniques applied:
 Gradient accumulation is used to increase the batch size that helps in reducing the training execution time.
 Automatic precision scaling using Autocast and grad scaler is leveraged to reduce the load on memory and increase the training speed by automaticalling changing the computations from fp32 to fp16 when not required.
 Pin_memory in data loader is set to true to reduce the load on memory .
+
+
+NOTE:For without performance tuning of the VIT code run for both the datasets,comment the trainer arguments for gradient accumulation and fp16 parameter to get the execution time statistics.
+Currently in the VIT folder, the execution time for both the datasets screenshots are attached for the reference.
