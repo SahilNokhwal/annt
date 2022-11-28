@@ -1,1 +1,0 @@
-Epoch: 0 || Train_acc: 26.606 || Val_acc: 43.87 || Val_loss: 2.0734670162200928 || Val_f1_score: 43.87 || Train_loss: 0.7738041281700134 || Train_exec_time: 0:00:08.268091 || Val_exec_time: 0:00:03.775891 || Tune_performance: True

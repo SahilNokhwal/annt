@@ -20,10 +20,17 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
-
+from sklearn.metrics import f1_score
 # %matplotlib inline
+seed=101
+def _set_seed(seed):
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+_set_seed(seed)
 
-batch_size = 128
+
+batch_size =128
 epochs =   30
 max_lr = 0.001
 grad_clip = 0.01
@@ -95,8 +102,11 @@ testloader = DeviceDataLoader(testloader, device)
 
 def accuracy(outputs, labels):
     _, preds = torch.max(outputs, dim=1)
-    return torch.tensor(torch.sum(preds == labels).item() / len(preds))
-
+    correct_count= torch.sum(preds == labels).item()
+    acc =  correct_count / len(preds)
+    acc = torch.tensor(acc)
+    f1 = f1_score(preds.cpu(), labels.cpu(), average='micro')
+    return f1,acc
 
 class ImageClassificationBase(nn.Module):
 
@@ -110,19 +120,21 @@ class ImageClassificationBase(nn.Module):
         images, labels = batch 
         out = self(images)  # Generate predictions
         loss = F.cross_entropy(out, labels)  # Calculate loss
-        acc = accuracy(out, labels)  # Calculate accuracy
-        return {'val_loss': loss.detach(), 'val_acc': acc}
+        f1, acc = accuracy(out, labels)  # Calculate accuracy
+        return {'val_loss': loss.detach(), 'val_acc': acc,  'f1': f1}
         
     def validation_epoch_end(self, outputs):
         batch_losses = [x['val_loss'] for x in outputs]
         epoch_loss = torch.stack(batch_losses).mean()  # Combine losses
         batch_accs = [x['val_acc'] for x in outputs]
         epoch_acc = torch.stack(batch_accs).mean()  # Combine accuracies
-        return {'val_loss': epoch_loss.item(), 'val_acc': epoch_acc.item()}
+        batch_f1s = [x['f1'] for x in outputs]
+        epoch_f1 = np.mean(batch_f1s) # Combine f1s
+        return {'val_loss': epoch_loss.item(), 'val_acc': epoch_acc.item(), 'f1': epoch_f1.item()}
     
     def epoch_end(self, epoch, result):
-        print("Epoch [{}], last_lr: {:.5f}, train_loss: {:.4f}, val_loss: {:.4f}, val_acc: {:.4f}".format(
-            epoch, result['lrs'][-1], result['train_loss'], result['val_loss'], result['val_acc']))
+        print("Epoch [{}], last_lr: {:.5f}, train_loss: {:.4f}, val_loss: {:.4f}, val_acc: {:.4f}, f1: {:.4f}".format(
+            epoch, result['lrs'][-1], result['train_loss'], result['val_loss'], result['val_acc'], result['f1']))
 
 
 def conv3x3(in_planes, out_planes, stride=1):
@@ -239,10 +251,19 @@ def get_lr(optimizer):
         return param_group['lr']
 
 
+def logger(string, log_file):
+    file_log = open(log_file, "a")
+    file_log.write(string + "\n")
+    file_log.close()
+
+
 def fit_one_cycle(epochs, max_lr, model, train_loader, test_loader,
                   weight_decay=0, grad_clip=None, opt_func=torch.optim.SGD):
     torch.cuda.empty_cache()
     history = []
+    his_train_loss=[]
+    his_val_loss=[]
+    his_val_acc=[]
     
     # Set up cutom optimizer with weight decay
     optimizer = opt_func(model.parameters(), max_lr, weight_decay=weight_decay)
@@ -276,44 +297,50 @@ def fit_one_cycle(epochs, max_lr, model, train_loader, test_loader,
         result['train_loss'] = torch.stack(train_losses).mean().item()
         result['lrs'] = lrs
         model.epoch_end(epoch, result)
+        logger(str('train_loss:'+str(result['train_loss'])+ ' || val_loss:'+str(result['val_loss'])+" || val_acc:"+str(result['val_acc'])), "cifar100_no_perf_training.log")
+        
+        his_train_loss.append(result['train_loss'])
+        his_val_loss.append(result['val_loss'])
+        his_val_acc.append(result['val_acc'])
+    
         history.append(result)
-    return history
+    return history, his_train_loss, his_val_loss, his_val_acc 
 
-history = [evaluate(model, testloader)]
-print(history)
+# history = [evaluate(model, testloader)]
+# print(history)
 
 start_time = time.time()
-history += fit_one_cycle(int(epochs), max_lr, model, trainloader, testloader,
+history, his_train_loss, his_val_loss, his_val_acc = fit_one_cycle(int(epochs), max_lr, model, trainloader, testloader,
                              grad_clip=grad_clip,
                              weight_decay=weight_decay,
                              opt_func=opt_func)
 
 print('Training time: {:.2f} s'.format(time.time() - start_time))
 
-#
-# def test_label_predictions(model, device, test_loader):
-#     model.eval()
-#     actuals = []
-#     predictions = []
-#     with torch.no_grad():
-#         for data, target in test_loader:
-#             data, target = data.to(device), target.to(device)
-#             output = model(data)
-#             prediction = output.argmax(dim=1, keepdim=True)
-#             actuals.extend(target.view_as(prediction))
-#             predictions.extend(prediction)
-#     return [i.item() for i in actuals], [i.item() for i in predictions]
-#
-#
-# y_test, y_pred = test_label_predictions(model, device, testloader)
-# cm = confusion_matrix(y_test, y_pred)
-# cr = classification_report(y_test, y_pred)
-# fs = f1_score(y_test, y_pred, average='weighted')
-# rs = recall_score(y_test, y_pred, average='weighted')
-# accuracy = accuracy_score(y_test, y_pred)
-# print('Confusion matrix:')
-# print(cm)
-# print(cr)
-# print('F1 score: %f' % fs)
-# print('Recall score: %f' % rs)
-# print('Accuracy score: %f' % accuracy)
+
+
+
+def save_graph_loss(filename, train_losses, val_losses):
+    # visualize the loss as the network trained
+    fig = plt.figure(figsize=(10, 8))
+    plt.plot(train_losses, label='Training Loss')  # range(1,len(train_losses)+1),
+    plt.plot(val_losses, label='Validation Loss')  # range(1,len(val_losses)+1),
+    
+    # find position of lowest validation loss
+    minposs = val_losses.index(min(val_losses)) + 1
+    plt.axvline(minposs, linestyle='--', color='r', label='Early Stopping Checkpoint')
+    
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    # plt.ylim(0, 0.5) # consistent scale
+    # plt.xlim(0, len(train_losses)+1) # consistent scale
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+    # plt.show()
+    fig.savefig(filename, bbox_inches='tight')
+    
+    
+    
+    
+save_graph_loss('CIFAR100_no_perf_loss_plot.png', his_train_loss, his_val_loss)
