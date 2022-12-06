@@ -1,3 +1,5 @@
+This code does not need any prerequisites. Each model code can be directly run on the GPU. Change the runtime type to GPU if running in Google Colab.
+
 Performance tuning evaluation of different deep learning models for Image classification using Pytorch.
 Datasets :Cifar10,Cifar100
 Models:EfficientNet-BO,Resnet50,Pretrained VIT (Hugging face)
@@ -23,6 +25,6 @@ Gradient accumulation is used to increase the batch size that helps in reducing 
 Automatic precision scaling using Autocast and grad scaler is leveraged to reduce the load on memory and increase the training speed by automaticalling changing the computations from fp32 to fp16 when not required.
 Pin_memory in data loader is set to true to reduce the load on memory .
 
-
+The code repo contain three direcototies: ResNet50, ViT and EfficientNet. The code for every model is self cntained contained and doesn't depends on another models. There are four files in the ResNet50 and EfficentNet directory and two in ViT: CIFAR10 and CIFAR100 with performance tuning; CIFAR10 and CIFAR100 without performance tuning. To run a model with a particular dataset with (or without perf), simply run that *.py or *.ipynb file.
 NOTE:For without performance tuning of the VIT code run for both the datasets,the trainer arguments for gradient accumulation and fp16 parameter are to be commented to get the execution time statistics for the default batch size of 70.
 The execution time of the model run screenshots are uploaded for the same in VIT folder.
