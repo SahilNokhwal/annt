@@ -1,15 +1,17 @@
 # Deep Learning Model Performance Evaluation for Image Classification
 
 ## Overview
-This repository contains code for evaluating the performance of different deep learning models for image classification using PyTorch. The models are evaluated on the CIFAR-10 and CIFAR-100 datasets.
+This repository contains the official code for the research paper titled "Accelerating Neural Network Training: A Brief Review" available at https://arxiv.org/pdf/2312.10024.pdf. The research employs sophisticated methodologies, including Gradient Accumulation (GA), Automatic Mixed Precision (AMP), and Pin Memory (PM), to optimize performance and expedite the training process. The study compares the performance of various deep learning models such as EfficientNet-BO, ResNet50, and Pretrained VIT in image classification tasks using PyTorch with/without employing those performance techniques. The experiments have been conducted using well-known CIFAR-10 and CIFAR-100 image datasets.
 
 ## Prerequisites
 This code does not require any prerequisites. Each model code can be directly run on the GPU. Change the runtime type to GPU if running in Google Colab.
 
 ## Models
-- EfficientNet-BO
-- ResNet50
-- Pretrained VIT (Hugging face)
+- EfficientNet-BO: EfficientNet-BO is a family of convolutional neural network architectures designed to achieve state-of-the-art performance while being computationally efficient. These models are characterized by a novel compound scaling method that uniformly scales all dimensions of depth, width, and resolution. This scaling approach enables EfficientNet models to achieve remarkable accuracy across a wide range of tasks while maintaining a smaller number of parameters compared to other architectures.
+
+- ResNet50: ResNet50 is a variant of the ResNet (Residual Network) architecture, which is renowned for its deep neural network design featuring skip connections or residual connections. ResNet50 specifically consists of 50 layers and has been widely used for various computer vision tasks, including image classification, object detection, and semantic segmentation. Its skip connections help alleviate the vanishing gradient problem, enabling training of very deep networks effectively.
+
+- Pretrained VIT (Hugging face): The Pretrained Vision Transformer (VIT) model, available through Hugging Face's Transformers library, is based on the Vision Transformer architecture. VIT represents images as sequences of patches and processes them using Transformer layers, originally designed for natural language processing tasks. By leveraging pretraining on large-scale datasets like ImageNet, Pretrained VIT models learn rich visual representations that can be fine-tuned for downstream tasks such as image classification, object detection, and image segmentation, achieving competitive performance compared to traditional convolutional neural networks.
 
 ## Datasets
 - CIFAR-10
