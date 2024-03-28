@@ -22,9 +22,21 @@ between the central processing unit and the graphics processing unit, thereby of
 overall performance. The experimental findings demonstrate that the combination of these sophisticated methodologies significantly
 accelerates the training of DNNs, offering vital insights for experts seeking to improve the effectiveness of deep learning processes.
 
+## Getting Started
+### Requirements 
 
-## Prerequisites
-This code does not require any prerequisites. Each model code can be directly run on the GPU. Change the runtime type to GPU if running in Google Colab.
+- Python3
+- Pytorch (>1.0)
+- torchvision (>0.2)
+- numpy
+- pillow~=6.2.1
+- torch_optimizer
+- randaugment
+- easydict
+- pandas~=1.1.3
+
+## Run the code
+- Each model code can be directly run on the GPU. Change the runtime type to GPU if running in Google Colab.
 
 ## Models
 - EfficientNet-BO: EfficientNet-BO is a family of convolutional neural network architectures designed to achieve state-of-the-art performance while being computationally efficient. These models are characterized by a novel compound scaling method that uniformly scales all dimensions of depth, width, and resolution. This scaling approach enables EfficientNet models to achieve remarkable accuracy across a wide range of tasks while maintaining a smaller number of parameters compared to other architectures.
