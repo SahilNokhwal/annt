@@ -46,15 +46,27 @@ accelerates the training of DNNs, offering vital insights for experts seeking to
 - Pretrained VIT (Hugging face): The Pretrained Vision Transformer (VIT) model, available through Hugging Face's Transformers library, is based on the Vision Transformer architecture. VIT represents images as sequences of patches and processes them using Transformer layers, originally designed for natural language processing tasks. By leveraging pretraining on large-scale datasets like ImageNet, Pretrained VIT models learn rich visual representations that can be fine-tuned for downstream tasks such as image classification, object detection, and image segmentation, achieving competitive performance compared to traditional convolutional neural networks.
 
 ## Datasets
-- CIFAR-10
-- CIFAR-100
+## CIFAR-10 and CIFAR-100
+The CIFAR-10 and CIFAR-100 datasets are commonly used benchmark datasets in the field of computer vision. They consist of 60,000 32x32 color images in 10 and 100 classes respectively, with 6,000 images per class. These datasets are widely used for training and evaluating image classification models.
+
+### CIFAR-10:
+- CIFAR-10 is composed of 10 classes, each representing a different type of object, such as airplanes, automobiles, birds, cats, etc. It is often used for quick experiments and initial model testing due to its smaller size compared to CIFAR-100.
+
+### CIFAR-100:
+- CIFAR-100 is an extension of CIFAR-10, with 100 classes instead of 10. Each class contains 600 images. It is more challenging than CIFAR-10 due to the larger number of classes, making it suitable for evaluating the robustness and generalization capabilities of models.
+
+Both datasets are preprocessed and split into training and test sets, allowing for consistent evaluation of model performance across different architectures and methodologies.
 
 ## Metrics Evaluated
-- Accuracy
-- F1 Score
+Two key metrics are evaluated to assess the performance of the models:
+
+- **Accuracy**: This metric measures the proportion of correctly classified instances out of all instances evaluated. In the context of image classification, it represents the percentage of images correctly classified by the model.
+
+- **F1 Score**: The F1 score is the harmonic mean of precision and recall. It considers both the precision (the number of true positive predictions divided by the total number of positive predictions) and recall (the number of true positive predictions divided by the total number of actual positives) to provide a single score that balances both measures. It is particularly useful when dealing with imbalanced datasets, as it takes into account both false positives and false negatives.
 
 ## Loss Function
-- Cross Entropy
+Cross Entropy is a commonly used loss function in classification tasks, including image classification. It measures the difference between the predicted probability distribution and the actual probability distribution of the classes. It is particularly effective when dealing with multi-class classification problems, such as CIFAR-10 and CIFAR-100, as it penalizes incorrect classifications more heavily, leading to better model training and convergence.
+
 
 ## Performance Tuning Techniques Leveraged
 - Automatic Precision Scaling: This technique dynamically adjusts the numerical precision of computations during training, allowing for more efficient use of computational resources while maintaining or improving model accuracy. It enables deep learning models to leverage lower precision arithmetic when feasible, reducing memory consumption and accelerating training speed without sacrificing performance.
