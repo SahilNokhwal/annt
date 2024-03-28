@@ -25,9 +25,12 @@ This code does not require any prerequisites. Each model code can be directly ru
 - Cross Entropy
 
 ## Performance Tuning Techniques Leveraged
-- Automatic Precision Scaling
-- Pin Memory
-- Gradient Accumulation
+- Automatic Precision Scaling: This technique dynamically adjusts the numerical precision of computations during training, allowing for more efficient use of computational resources while maintaining or improving model accuracy. It enables deep learning models to leverage lower precision arithmetic when feasible, reducing memory consumption and accelerating training speed without sacrificing performance.
+
+- Pin Memory: Pin Memory is a memory management technique commonly used in deep learning frameworks like PyTorch. It involves pinning memory allocations in the system's physical memory, which allows for faster data transfer between CPU and GPU during training. By preventing memory from being swapped out to disk, Pin Memory reduces overhead and latency, improving overall training performance.
+
+- Gradient Accumulation: Gradient Accumulation involves accumulating gradients over multiple batches before updating the model parameters. This technique is particularly useful when dealing with large batch sizes that may not fit into GPU memory. Instead of updating the model after processing each batch, gradients are accumulated over several batches, and the model parameters are updated less frequently. This can lead to more stable training, especially in scenarios where GPU memory is limited or when training on large datasets.
+
 
 ## Performance Tuning Evaluation Scores for CIFAR-10
 
