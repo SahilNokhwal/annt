@@ -89,8 +89,10 @@ To run a model with a particular dataset with (or without) performance tuning, s
 
 *Note: For running VIT code without performance tuning, the trainer arguments for gradient accumulation and fp16 parameter are to be commented to get the execution time statistics for the default batch size of 70. The execution time screenshots of the model runs are uploaded in the VIT folder.*
 
-## Citation
+## Citation 
 If you find this work useful, please consider citing the following paper:
+
+```angular2
 @misc{nokhwal2023accelerating,
       title={Accelerating Neural Network Training: A Brief Review}, 
       author={Sahil Nokhwal and Priyanka Chilakalapudi and Preeti Donekal and Suman Nokhwal and Saurabh Pahune and Ankit Chaudhary},
@@ -99,6 +101,7 @@ If you find this work useful, please consider citing the following paper:
       archivePrefix={arXiv},
       primaryClass={cs.LG}
 }
+```
 
 
 
