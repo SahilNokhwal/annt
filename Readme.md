@@ -1,7 +1,27 @@
-# Deep Learning Model Performance Evaluation for Image Classification
+# Accelerating Neural Network Training: A Brief Review
 
-## Overview
+## Overview of the repo
 This repository contains the official code for the research paper titled "Accelerating Neural Network Training: A Brief Review" available at https://arxiv.org/pdf/2312.10024.pdf. The research employs sophisticated methodologies, including Gradient Accumulation (GA), Automatic Mixed Precision (AMP), and Pin Memory (PM), to optimize performance and expedite the training process. The study compares the performance of various deep learning models such as EfficientNet-BO, ResNet50, and Pretrained VIT in image classification tasks using PyTorch with/without employing those performance techniques. The experiments have been conducted using well-known CIFAR-10 and CIFAR-100 image datasets.
+
+## Abstract
+The process of training a deep neural network is characterized by significant time requirements and associated costs. Although
+researchers have made considerable progress in this area, further work is still required due to resource constraints. This study
+examines innovative approaches to expedite the training process of deep neural networks (DNN), with specific emphasis on
+three state-of-the-art models such as ResNet50, Vision Transformer (ViT), and EfficientNet. The research utilizes sophisticated
+methodologies, including Gradient Accumulation (GA), Automatic Mixed Precision (AMP), and Pin Memory (PM), in order to
+optimize performance and accelerate the training procedure.
+
+The study examines the effects of these methodologies on the DNN models discussed earlier, assessing their efficacy with
+regard to training rate and computational efficacy. The study showcases the efficacy of including GA as a strategic approach,
+resulting in a noteworthy decrease in the duration required for training. This enables the models to converge at a faster pace.
+The utilization of AMP enhances the speed of computations by taking advantage of the advantages offered by lower precision
+arithmetic while maintaining the correctness of the model.
+
+Furthermore, this study investigates the application of Pin Memory as a strategy to enhance the efficiency of data transmission
+between the central processing unit and the graphics processing unit, thereby offering a promising opportunity for enhancing
+overall performance. The experimental findings demonstrate that the combination of these sophisticated methodologies significantly
+accelerates the training of DNNs, offering vital insights for experts seeking to improve the effectiveness of deep learning processes.
+
 
 ## Prerequisites
 This code does not require any prerequisites. Each model code can be directly run on the GPU. Change the runtime type to GPU if running in Google Colab.
@@ -68,4 +88,18 @@ Each directory contains self-contained code for the respective model. There are 
 To run a model with a particular dataset with (or without) performance tuning, simply run the respective `.py` or `.ipynb` file.
 
 *Note: For running VIT code without performance tuning, the trainer arguments for gradient accumulation and fp16 parameter are to be commented to get the execution time statistics for the default batch size of 70. The execution time screenshots of the model runs are uploaded in the VIT folder.*
+
+## Citation
+If you find this work useful, please consider citing the following paper:
+@misc{nokhwal2023accelerating,
+      title={Accelerating Neural Network Training: A Brief Review}, 
+      author={Sahil Nokhwal and Priyanka Chilakalapudi and Preeti Donekal and Suman Nokhwal and Saurabh Pahune and Ankit Chaudhary},
+      year={2023},
+      eprint={2312.10024},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+
+
+
 
