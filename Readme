@@ -1,30 +1,66 @@
-This code does not need any prerequisites. Each model code can be directly run on the GPU. Change the runtime type to GPU if running in Google Colab.
+# Deep Learning Model Performance Evaluation for Image Classification
 
-Performance tuning evaluation of different deep learning models for Image classification using Pytorch.
-Datasets :Cifar10,Cifar100
-Models:EfficientNet-BO,Resnet50,Pretrained VIT (Hugging face)
-Metrics evaluated :Accuracy,F1
-Loss function:Cross entropy
-Performance tuning techniques leveraged:Automatic Precision Scaling,Pin memory,Gradient accumulation
+## Overview
+This repository contains code for evaluating the performance of different deep learning models for image classification using PyTorch. The models are evaluated on the CIFAR-10 and CIFAR-100 datasets.
 
-Scores for Cifar10 with performance tuning applied:
-EfficientNet-BO,Accuracy-96%,F1-96% ,Exec. time- 1hour, before it was 1.8 hours
-VIT,Accuracy-97%,F1-97%, Exec. time- 2 hours , before it was 4.2 hours
-Resnet50,Accuracy-92%,F1-92% ,Exec. time -46 min, before it was 86min
+## Prerequisites
+This code does not require any prerequisites. Each model code can be directly run on the GPU. Change the runtime type to GPU if running in Google Colab.
 
-Scores for Cifar100:
-EfficientNet-BO,Train accuracy-81%,Test accuracy-90% ,Exec. time-1.1hours, before it was 1.7 hours.
-Restnet50-Accuracy-75.2%,F1-75.2% ,Exec. time-18min, before it was 85 min.
-VIT,Accuracy-84%,Exec. time -2.5 hrs,before it was 6.2 hours
+## Models
+- EfficientNet-BO
+- ResNet50
+- Pretrained VIT (Hugging face)
 
-For the above,when train and test accuracy resulted the same for the models they are just mentioned as 'Accuracy' otherwise mentioned the difference.
+## Datasets
+- CIFAR-10
+- CIFAR-100
 
+## Metrics Evaluated
+- Accuracy
+- F1 Score
 
-Performance tuning techniques applied:
-Gradient accumulation is used to increase the batch size that helps in reducing the training execution time.
-Automatic precision scaling using Autocast and grad scaler is leveraged to reduce the load on memory and increase the training speed by automaticalling changing the computations from fp32 to fp16 when not required.
-Pin_memory in data loader is set to true to reduce the load on memory .
+## Loss Function
+- Cross Entropy
 
-The code repo contain three direcototies: ResNet50, ViT and EfficientNet. The code for every model is self cntained contained and doesn't depends on another models. There are four files in the ResNet50 and EfficentNet directory and two in ViT: CIFAR10 and CIFAR100 with performance tuning; CIFAR10 and CIFAR100 without performance tuning. To run a model with a particular dataset with (or without perf), simply run that *.py or *.ipynb file.
-NOTE:For without performance tuning of the VIT code run for both the datasets,the trainer arguments for gradient accumulation and fp16 parameter are to be commented to get the execution time statistics for the default batch size of 70.
-The execution time of the model run screenshots are uploaded for the same in VIT folder.
+## Performance Tuning Techniques Leveraged
+- Automatic Precision Scaling
+- Pin Memory
+- Gradient Accumulation
+
+## Performance Tuning Evaluation Scores for CIFAR-10
+
+| Model           | Accuracy | F1 Score | Execution Time |
+|-----------------|----------|----------|----------------|
+| EfficientNet-BO | 96%      | 96%      | 1 hour         |
+| VIT             | 97%      | 97%      | 2 hours        |
+| ResNet50        | 92%      | 92%      | 46 minutes     |
+
+## Performance Tuning Evaluation Scores for CIFAR-100
+
+| Model           | Train Accuracy | Test Accuracy | Execution Time |
+|-----------------|----------------|---------------|----------------|
+| EfficientNet-BO | 81%            | 90%           | 1.1 hours      |
+| ResNet50        | -              | 75.2%         | 18 minutes     |
+| VIT             | 84%            | -             | 2.5 hours      |
+
+*Note: When train and test accuracy are the same for a model, they are mentioned as 'Accuracy'; otherwise, the difference is mentioned.*
+
+## Performance Tuning Techniques Applied
+- Gradient Accumulation: Increase batch size to reduce training execution time.
+- Automatic Precision Scaling: Leveraging Autocast and grad scaler to reduce memory load and increase training speed by automatically changing computations from fp32 to fp16 when not required.
+- Pin Memory: Set to true in data loader to reduce memory load.
+
+## Code Structure
+The code repository contains three directories:
+- ResNet50
+- ViT
+- EfficientNet
+
+Each directory contains self-contained code for the respective model. There are four files in the ResNet50 and EfficientNet directories and two in the ViT directory:
+- CIFAR10 and CIFAR100 with performance tuning
+- CIFAR10 and CIFAR100 without performance tuning
+
+To run a model with a particular dataset with (or without) performance tuning, simply run the respective `.py` or `.ipynb` file.
+
+*Note: For running VIT code without performance tuning, the trainer arguments for gradient accumulation and fp16 parameter are to be commented to get the execution time statistics for the default batch size of 70. The execution time screenshots of the model runs are uploaded in the VIT folder.*
+
